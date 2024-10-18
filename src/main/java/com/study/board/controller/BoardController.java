@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -29,5 +30,21 @@ public class BoardController {
     public String boardlist(Model model) {
         model.addAttribute("list", boardService.boardList());
         return "boardlist";
+    }
+
+    @GetMapping("/board/view") // localhist:8080/board/view?id=1
+    public String boardView(Model model, @RequestParam(name = "id") Integer id) {
+
+        model.addAttribute("board", boardService.boardView(id));
+        return "boardview";
+
+
+    }
+
+    @GetMapping("/board/delete")
+    public String boardDelete(@RequestParam(name = "id") Integer id) {
+        boardService.boardDelete(id);
+
+        return "redirect:/board/list";
     }
 }
